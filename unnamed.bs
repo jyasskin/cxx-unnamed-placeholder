@@ -1,0 +1,138 @@
+<pre class='metadata'>
+Title: An placeholder with no name
+Shortname: D????
+Revision: 0
+Audience: EWG
+Status: D
+Group: WG21
+URL: http://wg21.link/D????r0
+!Source: <a href="https://github.com/jyasskin/cxx-unnamed-placeholder/blob/master/source/unnamed.bs">https://github.com/jyasskin/cxx-unnamed-placeholder/blob/master/source/unnamed.bs</a>
+Editor: Jeffrey Yasskin, Google, jyasskin@google.com
+Abstract: A C++ token for deduced locations that says not to name whatever was deduced.
+Date: 2018-06-07
+Markup Shorthands: markdown yes
+Complain About: broken-links yes, missing-example-ids yes
+</pre>
+
+# Introduction and motivation # {#intro}
+
+We have several locations in C++ where a name is expected, but programmers may
+not need to use that name ever again. Right now, they have to pick a different
+name for each location, and readers can't immediately tell that the name isn't
+used without an attribute or a naming convention. It would be nice to have a
+clear, enforceable way to state that a name is ignored.
+
+# Prior Art # {#prior}
+
+## Haskell ## {#prior-haskell}
+
+Haskell uses a `_` token to indicate unused things:
+
+```haskell
+head (x:_)  = x
+tail (_:xs) = xs
+```
+
+Note that the _ can be "initialized" multiple times, unlike a named but unused
+variable:
+
+```haskell
+data Colour = Colour { red::Int, green::Int, blue::Int, opacity::Int}
+
+isOpaqueColour :: Colour -> Bool
+isOpaqueColour (Colour _ _ _ opacity) = opacity == 255
+```
+
+## Java ## {#prior-java}
+
+Java uses a `?` token to represent a "wildcard" generic argument.
+
+```java
+void printCollection(Collection<?> c) {
+    for (Object e : c) {
+        System.out.println(e);
+    }
+}
+```
+
+Java generic arguments usually need to be declared, but wildcards imply that a
+function is generic:
+
+```java
+class Collections {
+    public static <T, S extends T> void copy(List<T> dest, List<S> src) {
+    ...
+}
+
+class Collections {
+    public static <T> void copy(List<T> dest, List<? extends T> src) {
+    ...
+}
+```
+
+## Googlemock ## {#prior-googlemock}
+
+Googlemock defines
+[`_`](https://github.com/google/googletest/blob/master/googlemock/docs/CheatSheet.md#wildcard)
+to match anything. It doesn't use it for declarations, but it's still an "ignore
+this" token.
+
+```c++
+// Expects the turtle to move forward by 100 units.
+EXPECT_CALL(turtle, Forward(100));
+
+// Expects the turtle to move forward.
+EXPECT_CALL(turtle, Forward(_));
+```
+
+# Spelling # {#spelling}
+
+How should we spell the token?
+
+## `_` ## {#spell-underscore}
+
+I believe `_` is the ideal spelling, but it's already used by several libraries:
+
+* [`testing::_` in Googlemock](https://github.com/google/googletest/blob/master/googlemock/docs/CheatSheet.md#wildcard)
+* [`_()` in Gnu Gettext](https://www.gnu.org/software/gettext/manual/html_node/Mark-Keywords.html)
+
+`_` is reserved in the global namespace by [**lex.name**] ¶3.2, but we need it to be
+usable in all contexts:
+
+> Each identifier that begins with an underscore is reserved to the
+> implementation for use as a name in the global namespace.
+
+## `__` ## {#spell-double-under}
+
+This is a reserved token per [**lex.name**] ¶3.1.
+
+> Each identifier that contains a double underscore __ or begins with an
+> underscore followed by an uppercase letter is reserved to the implementation
+> for any use.
+
+This looks like the Haskell
+
+## `?` ## {#spell-question}
+
+`?` might be confusable with the ternary `?:` operator, but developers can
+distinguish based on it appearing in a declaration rather than expression
+context.
+
+This paper uses `?` in the [examples](#examples).
+
+## `auto` ## {#spell-auto}
+
+
+
+# Examples # {#examples}
+
+The goal of this section is to provide an example of using the placeholder in
+all declaration contexts in the language.
+
+# Wording # {#wording}
+
+TBD
+
+# Acknowledgements # {#ack}
+
+Daveed Vandevorde suggested using `?`. Thomas Köppe suggested `auto`.
