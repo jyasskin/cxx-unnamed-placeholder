@@ -6,12 +6,12 @@ Audience: EWG
 Status: D
 Group: WG21
 URL: http://wg21.link/D????r0
-!Source: <a href="https://github.com/jyasskin/cxx-unnamed-placeholder/blob/master/source/unnamed.bs">https://github.com/jyasskin/cxx-unnamed-placeholder/blob/master/source/unnamed.bs</a>
+!Source: <a href="https://github.com/jyasskin/cxx-unnamed-placeholder/blob/master/unnamed.bs">https://github.com/jyasskin/cxx-unnamed-placeholder/blob/master/unnamed.bs</a>
 Editor: Jeffrey Yasskin, Google, jyasskin@google.com
 Abstract: A C++ token for deduced locations that says not to name whatever was deduced.
 Date: 2018-06-07
 Markup Shorthands: markdown yes
-Complain About: broken-links yes, missing-example-ids yes
+Complain About: missing-example-ids yes
 </pre>
 
 # Introduction and motivation # {#intro}
@@ -21,6 +21,145 @@ not need to use that name ever again. Right now, they have to pick a different
 name for each location, and readers can't immediately tell that the name isn't
 used without an attribute or a naming convention. It would be nice to have a
 clear, enforceable way to state that a name is ignored.
+
+To enforce that the name is actually ignored, and that people reading the code
+don't think that an unused variable is actually used, using it in an expression
+should be an error instead of having a tag type like `nullptr_t`.
+
+# Examples # {#examples}
+
+The goal of this section is to provide an example of using the placeholder in
+all declaration contexts where it makes sense. These examples use `__` as the
+placeholder, but see [[#spelling]] for an analysis of several options.
+
+## Variables ## {#ex-variables}
+
+To lock a mutex for a scope, without worrying that the variable name is already
+taken:
+
+```c++
+std::lock_guard<std::mutex> __(a_mutex);
+std::lock_guard<std::mutex> __(a_second_mutex);
+```
+
+To hold some data alive that's used via internal pointers:
+
+```c++
+std::unique_ptr<T> ptr = ...;
+[__=std::move(ptr), &field1=ptr->field1, &field2=ptr->field2](){...};
+```
+
+Note that the lambda capture case syntactically allows `[&__=init, ...](){}`, but
+this is probably not useful.
+
+## Speculative: Concept-constrained declarations ## {#ex-concept}
+
+To define a deduced-type non-type template parameter where the type matches a
+concept but the type isn't given a name in the body of the class or function:
+
+```c++
+template<Integral __ N> class integral_constant { ... };
+```
+
+To declare a deduced-type parameter or local variable whose type is constrained
+by a concept:
+
+```c++
+Numeric multiplyAdd(Numeric __ x, Numeric __ y, Numeric __ z) {
+  Numeric __ multiplied = x * y;
+  return multiplied + z;
+}
+```
+
+## Structured Bindings ## {#ex-structured-binding}
+
+[[P0144R2]] §3.8 mentions that structured bindings could potentially use a
+syntax to ignore some fields from a bound structure:
+
+> ```c++
+> tuple<T1,T2,T3> f();
+> auto [x, std::ignore, z] = f(); // NOT proposed: ignore second element
+> ```
+
+[[P0144R2]] suggests waiting until a pattern matching proposal, at which point
+the right token will fall out. I suggest that this proposal also provides a
+reasonable token, making this:
+
+```c++
+tuple<T1,T2,T3> f();
+auto [x, __, z] = f(); // Ignore second element.
+```
+
+## Enumerators ## {#ex-enumerator}
+
+This makes it very slightly easier to skip a value:
+
+```c++
+enum MmapBits {
+  Shared,
+  Private,
+  __,
+  __,
+  Fixed,
+  Rename,
+  ...
+};
+```
+
+I suspect that this is less clear than explicitly assigning the values, so it
+would make sense to not support this.
+
+## Less useful examples ## {#less-useful-ex}
+
+### Using ### {#ex-using}
+
+To use a type name, without being able to use the alias. I think using a type
+name has side-effects, so there's probably not much point.
+
+```c++
+using __ = typename Base::value_type;
+```
+
+Similarly non-useful:
+
+```c++
+typedef typename Base::value_type __;
+namespace __ = std::ranges;
+```
+
+### Concept introduction ### {#ex-concept-intro}
+
+Like name aliases, a `requires` clause doesn't have side-effects, so doesn't
+need to be assigned to an unnamed concept.
+
+```c++
+concept __ = requires {...};
+```
+
+### Class, Struct, Enum, Namespace ### {#ex-class}
+
+These aren't useful because developers can simply omit the name:
+
+```c++
+class __ : Base { ... };
+struct __ : Base { ... };
+namespace __ { ... };
+enum __ { Enumerator };
+```
+
+### Unnamed parameters ### {#ex-unnamed-param}
+
+Like unused class names, parameter names can simply be omitted instead of
+needing a placeholder.
+
+```c++
+class C : public Base {
+  void Func(int i, long __) override;
+};
+
+template<typename __>
+class UsedInTemplateTemplateParam { ... };
+```
 
 # Prior Art # {#prior}
 
@@ -91,26 +230,26 @@ How should we spell the token?
 
 ## `_` ## {#spell-underscore}
 
-I believe `_` is the ideal spelling, but it's already used by several libraries:
+I believe `_` is the ideal spelling, but [**lex.name**] ¶3.2 only reserves it in
+the global namespace, and it's now used by libraries:
 
-* [`testing::_` in Googlemock](https://github.com/google/googletest/blob/master/googlemock/docs/CheatSheet.md#wildcard)
-* [`_()` in Gnu Gettext](https://www.gnu.org/software/gettext/manual/html_node/Mark-Keywords.html)
-
-`_` is reserved in the global namespace by [**lex.name**] ¶3.2, but we need it to be
-usable in all contexts:
-
-> Each identifier that begins with an underscore is reserved to the
-> implementation for use as a name in the global namespace.
+* [`testing::_` in
+    Googlemock](https://github.com/google/googletest/blob/master/googlemock/docs/CheatSheet.md#wildcard)
+* [The `_()` macro in Gnu
+    Gettext](https://www.gnu.org/software/gettext/manual/html_node/Mark-Keywords.html)
 
 ## `__` ## {#spell-double-under}
 
-This is a reserved token per [**lex.name**] ¶3.1.
+This is already a reserved identifier per [**lex.name**] ¶3.1.
 
 > Each identifier that contains a double underscore __ or begins with an
 > underscore followed by an uppercase letter is reserved to the implementation
 > for any use.
 
-This looks like the Haskell
+It takes a little longer to type than `_`, and in many fonts the difference
+between `__` and `_` may be unclear.
+
+This paper uses `__` in the [examples](#examples).
 
 ## `?` ## {#spell-question}
 
@@ -118,16 +257,19 @@ This looks like the Haskell
 distinguish based on it appearing in a declaration rather than expression
 context.
 
-This paper uses `?` in the [examples](#examples).
+`?` may also be confused with a wildcard like `*`, to mean "union all the
+possible values in this position", for example in a `nested::name::specifier`.
+Fortunately, I don't see a reason for `?` to be valid in contexts where that
+interpretation is plausible.
+
+Using `?` for the placeholder identifier might prevent its use in the syntax for
+a forwarding reference. e.g. `ForwardingRef&&?`.
 
 ## `auto` ## {#spell-auto}
 
-
-
-# Examples # {#examples}
-
-The goal of this section is to provide an example of using the placeholder in
-all declaration contexts in the language.
+The "attribute" proposal for concept declarations uses `auto` in a place a type
+might appear, which one might consider precedent for using it as a more general
+placeholder.
 
 # Wording # {#wording}
 
