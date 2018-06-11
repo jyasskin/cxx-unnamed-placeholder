@@ -285,7 +285,7 @@ We could use various Unicode characters, such as the replacement character
 `�`, the empty set `∅`, the interrobang `‽`, a trash can `🗑`, one of the
 recycle signs `♻️`, and countless other characters.
 These all have the shortcoming that not all toolchains and editors support
-them well or uniformely.
+them well or uniformly.
 
 # Wording # {#wording}
 
