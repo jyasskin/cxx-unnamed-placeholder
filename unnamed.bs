@@ -277,4 +277,4 @@ TBD
 
 # Acknowledgements # {#ack}
 
-Daveed Vandevorde suggested using `?`. Thomas Köppe suggested `auto`.
+Daveed Vandevoorde suggested using `?`. Thomas Köppe suggested `auto`.
