@@ -8,6 +8,7 @@ Group: WG21
 URL: http://wg21.link/D????r0
 !Source: <a href="https://github.com/jyasskin/cxx-unnamed-placeholder/blob/master/unnamed.bs">https://github.com/jyasskin/cxx-unnamed-placeholder/blob/master/unnamed.bs</a>
 Editor: Jeffrey Yasskin, Google, jyasskin@google.com
+Editor: JF Bastien, Apple, jfbastien@apple.com
 Abstract: A C++ token for deduced locations that says not to name whatever was deduced.
 Date: 2018-06-07
 Markup Shorthands: markdown yes
@@ -251,7 +252,10 @@ between `__` and `_` may be unclear.
 
 This paper uses `__` in the [examples](#examples).
 
-The `__` identifier is use in some codebases, such as [the V8 JavaScript engine]https://github.com/v8/v8/search?q=%22define+__%22&unscoped_q=%22define+__%22_).
+The `__` identifier is used in some codebases, such as
+[the V8 JavaScript engine]https://github.com/v8/v8/search?q=%22define+__%22&unscoped_q=%22define+__%22_).
+Using a macro named `__` as V8 does means that breakage will only occur if
+that codebase also attempts to use this new feature.
 
 ## `?` ## {#spell-question}
 
