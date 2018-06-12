@@ -8,6 +8,7 @@ Group: WG21
 URL: http://wg21.link/D????r0
 !Source: <a href="https://github.com/jyasskin/cxx-unnamed-placeholder/blob/master/unnamed.bs">https://github.com/jyasskin/cxx-unnamed-placeholder/blob/master/unnamed.bs</a>
 Editor: Jeffrey Yasskin, Google, jyasskin@google.com
+Editor: JF Bastien, Apple, jfbastien@apple.com
 Abstract: A C++ token for deduced locations that says not to name whatever was deduced.
 Date: 2018-06-07
 Markup Shorthands: markdown yes
@@ -242,7 +243,7 @@ the global namespace, and it's now used by libraries:
 
 This is already a reserved identifier per [**lex.name**] ¶3.1.
 
-> Each identifier that contains a double underscore __ or begins with an
+> Each identifier that contains a double underscore `__` or begins with an
 > underscore followed by an uppercase letter is reserved to the implementation
 > for any use.
 
@@ -250,6 +251,11 @@ It takes a little longer to type than `_`, and in many fonts the difference
 between `__` and `_` may be unclear.
 
 This paper uses `__` in the [examples](#examples).
+
+The `__` identifier is used in some codebases, such as
+[the V8 JavaScript engine]https://github.com/v8/v8/search?q=%22define+__%22&unscoped_q=%22define+__%22_).
+Using a macro named `__` as V8 does means that breakage will only occur if
+that codebase also attempts to use this new feature.
 
 ## `?` ## {#spell-question}
 
@@ -265,11 +271,25 @@ interpretation is plausible.
 Using `?` for the placeholder identifier might prevent its use in the syntax for
 a forwarding reference. e.g. `ForwardingRef&&?`.
 
+## Repeated `?` ## {#spell-rep-question}
+
+Multiple `?` could be used to disambiguate some of the issues with a single `?`.
+Using `??` or `???` is more typing but is fairly obvious, though it would likely
+be better to make this a token so whitespace cannot be used between question marks.
+
 ## `auto` ## {#spell-auto}
 
 The "attribute" proposal for concept declarations uses `auto` in a place a type
 might appear, which one might consider precedent for using it as a more general
 placeholder.
+
+## Various Unicode characters ## {#💩}
+
+We could use various Unicode characters, such as the replacement character
+`�`, the empty set `∅`, the interrobang `‽`, a trash can `🗑`, one of the
+recycle signs `♻️`, and countless other characters.
+These all have the shortcoming that not all toolchains and editors support
+them well or uniformly.
 
 # Wording # {#wording}
 
