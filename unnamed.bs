@@ -34,6 +34,11 @@ To enforce that the name is actually ignored, and that people reading the code
 don't think that an unused variable is actually used, using it in an expression
 should be an error instead of having a tag type like `nullptr_t`.
 
+One of the authors of this paper filed [[EWG35]] on this subject years ago and
+then forgot about it. Unlike that issue, this paper does not expect the
+semantics of the placeholder name to be defined in terms of a generated unique
+name.
+
 # Examples # {#examples}
 
 The goal of this section is to provide an example of using the placeholder in
@@ -54,11 +59,29 @@ To hold some data alive that's used via internal pointers:
 
 ```c++
 std::unique_ptr<T> ptr = ...;
-[__=std::move(ptr), &field1=ptr->field1, &field2=ptr->field2](){...};
+auto& field1 = ptr->field1;
+auto& field2 = ptr->field2
+[__=std::move(ptr), &field1=field1, &field2=field2](){...};
 ```
 
 Note that the lambda capture case syntactically allows `[&__=init, ...](){}`, but
 this is probably not useful.
+
+Classes can also have data members named `__`, which have the marginal use of
+reserving space for the future addition of new ABI-compatible fields. These
+fields cannot be used for the same purpose as in lambda captures because they
+can't be initialized.
+
+```c++
+class Foo {
+  Foo(std::unique_ptr<T> ptr)
+    : __(std::move(ptr)) // Doesn't work.
+    {}
+
+  std::unique_ptr<T> __; // Not effective.
+  int32_t __[4]; // Reserve 4 words of space for future fields.
+};
+```
 
 ## Speculative: Concept-constrained declarations ## {#ex-concept}
 
@@ -121,8 +144,8 @@ would make sense to not support this.
 
 ### Using ### {#ex-using}
 
-To use a type name, without being able to use the alias. I think using a type
-name has side-effects, so there's probably not much point.
+To use a type name, without being able to use the alias. I don't think using a
+type name has side-effects, so there's probably not much point.
 
 ```c++
 using __ = typename Base::value_type;
@@ -146,7 +169,8 @@ concept __ = requires {...};
 
 ### Class, Struct, Enum ### {#ex-class}
 
-These aren't useful because developers can simply omit the name:
+These aren't necessary because developers can simply omit the name, but might
+still be useful to simplify the declaration syntax:
 
 ```c++
 class __ : Base { ... };
@@ -154,10 +178,15 @@ struct __ : Base { ... };
 enum __ { Enumerator };
 ```
 
+We couldn't actually require a name there for several more versions of C++, if
+ever, but local style guides could require it in order to simplify what they
+need to teach new C++ developers.
+
 ### Unnamed parameters ### {#ex-unnamed-param}
 
 Like unused class names, parameter names can simply be omitted instead of
-needing a placeholder.
+needing a placeholder. Again, requiring an explicitly-unused name, instead of
+allowing it to be omitted, simplifies the declaration grammar.
 
 ```c++
 class C : public Base {
@@ -167,6 +196,27 @@ class C : public Base {
 template<typename __>
 class UsedInTemplateTemplateParam { ... };
 ```
+
+### Function names ### {#ex-function}
+
+Using `__` to name a function is a similar case to declaring a variable, except
+that function definitions don't have the kind of side-effects that variable
+definitions have.
+
+```c++
+void __(int arg) { ... }
+void __(long arg) { ... }
+```
+
+Since the use of `__` prevents code from referring to these functions after
+they're declared, the above code creates two independent functions rather than
+an overload set (although I can't think of a way to distinguish the two).
+
+Virtual functions can also be named `__`. Having an unnamed virtual function
+take up a vtable slot could be useful to preserve ABI compatibility when a
+future function is added, but that's a matter for platform ABIs rather than the
+standard. This kind of virtual function cannot be overridden, of course, since
+it can't be named again after its declaration.
 
 ## Discouraged examples ## {#discouraged-ex}
 
@@ -211,6 +261,42 @@ data Colour = Colour { red::Int, green::Int, blue::Int, opacity::Int}
 isOpaqueColour :: Colour -> Bool
 isOpaqueColour (Colour _ _ _ opacity) = opacity == 255
 ```
+
+## Python ## {#prior-python}
+TODO
+
+## Scala ## {#prior-scala}
+TODO
+
+## Rust ## {#prior-rust}
+TODO
+
+## Swift ## {#prior-swift}
+TODO
+
+## C#  ## {#prior-csharp}
+TODO
+
+> We are also encouraged to use _ as the discard character instead of *. It works better visually, and is what many other languages already use.
+>
+> There is a small matter of _ already being a valid identifier. In order for it to coexist as a discard with existing valid uses we need to use a few tricks.
+>
+> —[dotnet/roslyn#16674](https://github.com/dotnet/roslyn/issues/16674)
+
+## Erlang ## {#prior-erlang}
+TODO
+
+## Elixir ## {#prior-elixir}
+TODO
+
+## Prolog ## {#prior-prolog}
+TODO
+
+## OCaml ## {#prior-ocaml}
+TODO
+
+## F# ## {#prior-fsharp}
+TODO
 
 ## Java ## {#prior-java}
 
@@ -394,3 +480,5 @@ Thanks to:
 * Mathias Stearn for suggesting omitting the name.
 * Tony Van Eerd for providing an argument against omitting the name, and for
     suggesting that `_` only become magic when it's re-used.
+* Richard Smith for pointing out Halide.
+* Michael Park for a long list of languages that use `_`.
