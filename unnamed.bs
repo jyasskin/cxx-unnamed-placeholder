@@ -83,25 +83,6 @@ class Foo {
 };
 ```
 
-## Speculative: Concept-constrained declarations ## {#ex-concept}
-
-To define a deduced-type non-type template parameter where the type matches a
-concept but the type isn't given a name in the body of the class or function:
-
-```c++
-template<Integral __ N> class integral_constant { ... };
-```
-
-To declare a deduced-type parameter or local variable whose type is constrained
-by a concept:
-
-```c++
-Numeric multiplyAdd(Numeric __ x, Numeric __ y, Numeric __ z) {
-  Numeric __ multiplied = x * y;
-  return multiplied + z;
-}
-```
-
 ## Structured Bindings ## {#ex-structured-binding}
 
 [[P0144R2]] §3.8 mentions that structured bindings could potentially use a
@@ -140,32 +121,26 @@ enum MmapBits {
 I suspect that this is less clear than explicitly assigning the values, so it
 would make sense to not support this.
 
+## Speculative: Concept-constrained declarations ## {#ex-concept}
+
+To define a deduced-type non-type template parameter where the type matches a
+concept but the type isn't given a name in the body of the class or function:
+
+```c++
+template<Integral __ N> class integral_constant { ... };
+```
+
+To declare a deduced-type parameter or local variable whose type is constrained
+by a concept:
+
+```c++
+Numeric multiplyAdd(Numeric __ x, Numeric __ y, Numeric __ z) {
+  Numeric __ multiplied = x * y;
+  return multiplied + z;
+}
+```
+
 ## Less useful examples ## {#less-useful-ex}
-
-### Using ### {#ex-using}
-
-To use a type name, without being able to use the alias. I don't think using a
-type name has side-effects, so there's probably not much point.
-
-```c++
-using __ = typename Base::value_type;
-```
-
-Similarly non-useful:
-
-```c++
-typedef typename Base::value_type __;
-namespace __ = std::ranges;
-```
-
-### Concept introduction ### {#ex-concept-intro}
-
-Like name aliases, a `requires` clause doesn't have side-effects, so doesn't
-need to be assigned to an unnamed concept.
-
-```c++
-concept __ = requires {...};
-```
 
 ### Class, Struct, Enum ### {#ex-class}
 
@@ -217,6 +192,31 @@ take up a vtable slot could be useful to preserve ABI compatibility when a
 future function is added, but that's a matter for platform ABIs rather than the
 standard. This kind of virtual function cannot be overridden, of course, since
 it can't be named again after its declaration.
+
+### Using ### {#ex-using}
+
+To use a type name, without being able to use the alias. I don't think using a
+type name has side-effects, so there's probably not much point.
+
+```c++
+using __ = typename Base::value_type;
+```
+
+Similarly non-useful:
+
+```c++
+typedef typename Base::value_type __;
+namespace __ = std::ranges;
+```
+
+### Concept introduction ### {#ex-concept-intro}
+
+Like name aliases, a `requires` clause doesn't have side-effects, so doesn't
+need to be assigned to an unnamed concept.
+
+```c++
+concept __ = requires {...};
+```
 
 ## Discouraged examples ## {#discouraged-ex}
 
