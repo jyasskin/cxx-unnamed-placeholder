@@ -15,12 +15,12 @@ Markup Shorthands: markdown yes
 Complain About: missing-example-ids yes
 </pre>
 
-> ❝I've been through the desert on a parse with no name
+> ❝I've been through the compiler on a var with no name
 > It felt good to be out of `main`
-> In the desert you can remember your name
+> In the compiler you can remember your name
 > 'Cause there ain't no diagnostic for to give you no pain❞
 >
-> — A Parse with no Name
+> — A Var with no Name
 
 # Introduction and motivation # {#intro}
 
