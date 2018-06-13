@@ -1,5 +1,5 @@
 <pre class='metadata'>
-Title: An placeholder with no name
+Title: A placeholder with no name
 Shortname: D????
 Revision: 0
 Audience: EWG
@@ -15,9 +15,9 @@ Markup Shorthands: markdown yes
 Complain About: missing-example-ids yes
 </pre>
 
-> ❝I've been through the compiler on a var with no name
-> It felt good to be out of `main`
-> In the compiler you can remember your name
+> ❝I've been through the compiler on a var with no name<br>
+> It felt good to be out of `main`<br>
+> In the compiler you can remember your name<br>
 > 'Cause there ain't no diagnostic for to give you no pain❞
 >
 > — A Var with no Name
@@ -254,6 +254,28 @@ EXPECT_CALL(turtle, Forward(100));
 EXPECT_CALL(turtle, Forward(_));
 ```
 
+## Halide ## {#prior-halide}
+
+From Halide's
+[documentation](http://halide-lang.org/docs/class_halide_1_1_var.html#a333e72cf9af6339530cb3544b7fe1324):
+
+> For example, consider the definition:
+>
+> ```c++
+> Func f, g;
+> Var x, y;
+> f(x, y) = 3;
+> ```
+>
+> A call to f with the placeholder symbol _ will have implicit arguments injected automatically, so f(2, _) is equivalent to f(2, _0), where _0 = Var::implicit(0), and f(_) (and indeed f when cast to an Expr) is equivalent to f(_0, _1). The following definitions are all equivalent, differing only in the variable names.
+>
+> ```c++
+> g(_) = f*3;
+> g(_) = f(_)*3;
+> g(x, _) = f(x, _)*3;
+> g(x, y) = f(x, y)*3;
+> ```
+
 # Spelling # {#spelling}
 
 How should we spell the token?
@@ -265,8 +287,11 @@ the global namespace, and it's now used by libraries:
 
 * [`testing::_` in
     Googlemock](https://github.com/google/googletest/blob/master/googlemock/docs/CheatSheet.md#wildcard)
+* [`Halide::_` in Halide](http://halide-lang.org/docs/_var_8h.html)
 * [The `_()` macro in Gnu
     Gettext](https://www.gnu.org/software/gettext/manual/html_node/Mark-Keywords.html)
+
+To avoid making these existing uses of `_` ill-formed, see [[#qs-second-use]].
 
 ## `__` ## {#spell-double-under}
 
@@ -281,10 +306,10 @@ between `__` and `_` may be unclear.
 
 This paper uses `__` in the [examples](#examples).
 
-The `__` identifier is used in some codebases, such as
-[the V8 JavaScript engine]https://github.com/v8/v8/search?q=%22define+__%22&unscoped_q=%22define+__%22_).
-Using a macro named `__` as V8 does means that breakage will only occur if
-that codebase also attempts to use this new feature.
+The `__` identifier is used in some codebases, such as [the V8 JavaScript
+engine](https://github.com/v8/v8/search?q=%22define+__%22&unscoped_q=%22define+__%22_).
+Using a macro named `__` as V8 does means that breakage will only occur if that
+codebase also attempts to use this new feature.
 
 ## `?` ## {#spell-question}
 
@@ -312,6 +337,18 @@ The "attribute" proposal for concept declarations uses `auto` in a place a type
 might appear, which one might consider precedent for using it as a more general
 placeholder.
 
+## Omit the name ## {#spell-omit}
+
+We could just allow omitted names in more places:
+
+```c++
+auto = std::lock_guard(mx);
+```
+
+This option «mov[es] closer to "all syntax is valid and means something, but
+maybe not what you meant".» — [Tony Van
+Eerd](http://lists.isocpp.org/ext/2018/06/4518.php)
+
 ## Various Unicode characters ## {#💩}
 
 We could use various Unicode characters, such as the replacement character
@@ -320,10 +357,40 @@ recycle signs `♻️`, and countless other characters.
 These all have the shortcoming that not all toolchains and editors support
 them well or uniformly.
 
+# Semantic questions # {#semantic-qs}
+
+## Only on second use ## {#qs-second-use}
+
+We could declare that our placeholder makes variables anonymous only once it's
+used for the second time in a scope. That is:
+
+```c++
+int _ = 10; // fine
+_ = 11; // fine, can use it
+int _ = 12; // another _, fine
+// at this point, both _ variables exist, but can no longer be accessed:
+_ = 13; // error - which one?
+```
+
+Within this option, we could decide whether or not a second declaration is
+ill-formed if `_` has already been used within the scope.
+
+Allowing this option at namespace scope, as [Googlemock](#prior-googlemock)
+would need, seems to make ODR violations more likely. A file with only 1 unused
+variable (perhaps used to register a static initializer) would be likely to
+forget that variable's `static` and so generate an external symbol, which would
+collide with a similar symbol from another file.
+
 # Wording # {#wording}
 
 TBD
 
 # Acknowledgements # {#ack}
 
-Daveed Vandevoorde suggested using `?`. Thomas Köppe suggested `auto`.
+Thanks to:
+
+* Daveed Vandevoorde for suggesting using `?`.
+* Thomas Köppe for suggesting `auto`.
+* Mathias Stearn for suggesting omitting the name.
+* Tony Van Eerd for providing an argument against omitting the name, and for
+    suggesting that `_` only become magic when it's re-used.
