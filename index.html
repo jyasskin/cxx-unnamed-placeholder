@@ -2,7 +2,7 @@
  <head>
   <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
   <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
-  <title>D????R0: A placeholder with no name</title>
+  <title>D1110R0: A placeholder with no name</title>
 <style data-fill-with="stylesheet">/******************************************************************************
  *                   Style sheet for the W3C specifications                   *
  *
@@ -1226,10 +1226,10 @@ Possible extra rowspan handling
       text-align: center;
     }
   </style>
-  <meta content="Bikeshed version 7a022f4ed5d215ee6aab86547be6126ba9c8135a" name="generator">
-  <link href="http://wg21.link/D????r0" rel="canonical">
+  <meta content="Bikeshed version 6abc9f98f620481a5031cd9b44944d60af9b79b9" name="generator">
+  <link href="http://wg21.link/P1110r0" rel="canonical">
   <link href="https://isocpp.org/favicon.ico" rel="icon">
-  <meta content="83e418e489a2e3b54e7fa2abd4b5c28403c05be2" name="document-revision">
+  <meta content="66c4843941652152a7a1abd18ab3584e828976a9" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -1438,12 +1438,12 @@ pre .property::before, pre .property::after {
  <body class="h-entry">
   <div class="head">
    <p data-fill-with="logo"></p>
-   <h1 class="p-name no-ref" id="title">D????R0<br>A placeholder with no name</h1>
+   <h1 class="p-name no-ref" id="title">D1110R0<br>A placeholder with no name</h1>
    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Proposal, <time class="dt-updated" datetime="2018-06-07">7 June 2018</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
-     <dd><a class="u-url" href="http://wg21.link/D????r0">http://wg21.link/D????r0</a>
+     <dd><a class="u-url" href="http://wg21.link/P1110r0">http://wg21.link/P1110r0</a>
      <dt>Authors:
      <dd>
       <dd class="editor p-author h-card vcard"><a class="p-name fn u-email email" href="mailto:jyasskin@google.com">Jeffrey Yasskin</a> (<span class="p-org org">Google</span>)
@@ -1488,6 +1488,7 @@ pre .property::before, pre .property::after {
        <a href="#discouraged-ex"><span class="secno">2.6</span> <span class="content">Discouraged examples</span></a>
        <ol class="toc">
         <li><a href="#ex-anon-namespace"><span class="secno">2.6.1</span> <span class="content">Anonymous Namespaces</span></a>
+        <li><a href="#ex-anon-union"><span class="secno">2.6.2</span> <span class="content">Anonymous Unions</span></a>
        </ol>
      </ol>
     <li>
@@ -1495,18 +1496,20 @@ pre .property::before, pre .property::after {
      <ol class="toc">
       <li><a href="#prior-haskell"><span class="secno">3.1</span> <span class="content">Haskell</span></a>
       <li><a href="#prior-python"><span class="secno">3.2</span> <span class="content">Python</span></a>
-      <li><a href="#prior-scala"><span class="secno">3.3</span> <span class="content">Scala</span></a>
+      <li>
+       <a href="#prior-scala"><span class="secno">3.3</span> <span class="content">Scala</span></a>
+       <ol class="toc">
+        <li><a href="#scala-patterns"><span class="secno">3.3.1</span> <span class="content"><span>Pattern matching</span></span></a>
+        <li><a href="#scala-defaults"><span class="secno">3.3.2</span> <span class="content"><span>Defaulted definitions</span></span></a>
+        <li><a href="#scala-imports"><span class="secno">3.3.3</span> <span class="content"><span>Imports</span></span></a>
+        <li><a href="#scala-type-wildcards"><span class="secno">3.3.4</span> <span class="content">Wildcards</span></a>
+       </ol>
       <li><a href="#prior-rust"><span class="secno">3.4</span> <span class="content">Rust</span></a>
-      <li><a href="#prior-swift"><span class="secno">3.5</span> <span class="content">Swift</span></a>
-      <li><a href="#prior-csharp"><span class="secno">3.6</span> <span class="content">C#</span></a>
-      <li><a href="#prior-erlang"><span class="secno">3.7</span> <span class="content">Erlang</span></a>
-      <li><a href="#prior-elixir"><span class="secno">3.8</span> <span class="content">Elixir</span></a>
-      <li><a href="#prior-prolog"><span class="secno">3.9</span> <span class="content">Prolog</span></a>
-      <li><a href="#prior-ocaml"><span class="secno">3.10</span> <span class="content">OCaml</span></a>
-      <li><a href="#prior-fsharp"><span class="secno">3.11</span> <span class="content">F#</span></a>
-      <li><a href="#prior-java"><span class="secno">3.12</span> <span class="content">Java</span></a>
-      <li><a href="#prior-googlemock"><span class="secno">3.13</span> <span class="content">Googlemock</span></a>
-      <li><a href="#prior-halide"><span class="secno">3.14</span> <span class="content">Halide</span></a>
+      <li><a href="#prior-csharp"><span class="secno">3.5</span> <span class="content">C#</span></a>
+      <li><a href="#prior-java"><span class="secno">3.6</span> <span class="content">Java</span></a>
+      <li><a href="#prior-googlemock"><span class="secno">3.7</span> <span class="content">Googlemock</span></a>
+      <li><a href="#prior-halide"><span class="secno">3.8</span> <span class="content">Halide</span></a>
+      <li><a href="#prior-others"><span class="secno">3.9</span> <span class="content">Others</span></a>
      </ol>
     <li>
      <a href="#spelling"><span class="secno">4</span> <span class="content">Spelling</span></a>
@@ -1689,6 +1692,26 @@ says,</p>
    </blockquote>
    <p>Because of this divergence in meaning from the other places <code class="highlight"><span class="n">__</span></code> can appear, I
 recommend disallowing it as a namespace name.</p>
+   <h4 class="heading settled" data-level="2.6.2" id="ex-anon-union"><span class="secno">2.6.2. </span><span class="content">Anonymous Unions</span><a class="self-link" href="#ex-anon-union"></a></h4>
+   <p>[<strong>class.union.anon</strong>] says that</p>
+<pre class="language-c++ highlight"><span class="k">struct</span> <span class="n">MyStruct</span> <span class="p">{</span>
+    <span class="k">union</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+        <span class="kt">double</span> <span class="n">d</span><span class="p">;</span>
+    <span class="p">};</span>
+<span class="p">};</span>
+</pre>
+   <p>Makes the union’s members' names available as direct members of <code class="highlight"><span class="n">MyStruct</span></code>.
+Because of that extra behavior, I also don’t think we should allow</p>
+<pre class="language-c++ highlight"><span class="k">struct</span> <span class="n">MyStruct</span> <span class="p">{</span>
+    <span class="k">union</span> <span class="n">__</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+        <span class="kt">double</span> <span class="n">d</span><span class="p">;</span>
+    <span class="p">}</span> <span class="n">__</span><span class="p">;</span>
+<span class="p">};</span>
+</pre>
+   <p>We could say that naming either the union or the variable allows <code class="highlight"><span class="n">__</span></code> in the
+other position, or disallow <code class="highlight"><span class="n">__</span></code> in either position.</p>
    <h2 class="heading settled" data-level="3" id="prior"><span class="secno">3. </span><span class="content">Prior Art</span><a class="self-link" href="#prior"></a></h2>
    <h3 class="heading settled" data-level="3.1" id="prior-haskell"><span class="secno">3.1. </span><span class="content">Haskell</span><a class="self-link" href="#prior-haskell"></a></h3>
    <p>Haskell uses a <code class="highlight"><span class="n">_</span></code> token to indicate unused things:</p>
@@ -1703,31 +1726,117 @@ variable:</p>
 <span class="nf">isOpaqueColour</span> <span class="p">(</span><span class="kt">Colour</span> <span class="kr">_</span> <span class="kr">_</span> <span class="kr">_</span> <span class="n">opacity</span><span class="p">)</span> <span class="ow">=</span> <span class="n">opacity</span> <span class="o">==</span> <span class="mi">255</span>
 </pre>
    <h3 class="heading settled" data-level="3.2" id="prior-python"><span class="secno">3.2. </span><span class="content">Python</span><a class="self-link" href="#prior-python"></a></h3>
-    TODO 
+   <p><code class="highlight"><span class="n">_</span></code> is conventionally used to name unused variables. For example:</p>
+<pre class="language-python highlight"><span class="n">label</span><span class="p">,</span> <span class="n">has_label</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s1">':'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> range<span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+  <span class="n">call_ten_times</span><span class="p">()</span>
+</pre>
+   <p>https://stackoverflow.com/a/5893946/943619 describes this use, but there is no
+mention in the official Python documentation.</p>
    <h3 class="heading settled" data-level="3.3" id="prior-scala"><span class="secno">3.3. </span><span class="content">Scala</span><a class="self-link" href="#prior-scala"></a></h3>
-    TODO 
-   <h3 class="heading settled" data-level="3.4" id="prior-rust"><span class="secno">3.4. </span><span class="content">Rust</span><a class="self-link" href="#prior-rust"></a></h3>
-    TODO 
-   <h3 class="heading settled" data-level="3.5" id="prior-swift"><span class="secno">3.5. </span><span class="content">Swift</span><a class="self-link" href="#prior-swift"></a></h3>
-    TODO 
-   <h3 class="heading settled" data-level="3.6" id="prior-csharp"><span class="secno">3.6. </span><span class="content">C#</span><a class="self-link" href="#prior-csharp"></a></h3>
-    TODO 
+   <p>Scala uses <code class="highlight"><span class="n">_</span></code> for many kinds of placeholders:</p>
+   <h4 class="heading settled" data-level="3.3.1" id="scala-patterns"><span class="secno">3.3.1. </span><span class="content"><a href="https://docs.scala-lang.org/tour/pattern-matching.html#pattern-guards">Pattern matching</a></span><a class="self-link" href="#scala-patterns"></a></h4>
+<pre class="language-scala highlight"><span class="k">def</span> <span class="n">showImportantNotification</span><span class="o">(</span><span class="n">notification</span><span class="k">:</span> <span class="kt">Notification</span><span class="o">,</span> <span class="n">importantPeopleInfo</span><span class="k">:</span> <span class="kt">Seq</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="o">{</span>
+  <span class="n">notification</span> <span class="k">match</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="nc">Email</span><span class="o">(</span><span class="n">email</span><span class="o">,</span> <span class="k">_</span><span class="o">,</span> <span class="k">_</span><span class="o">)</span> <span class="k">if</span> <span class="n">importantPeopleInfo</span><span class="o">.</span><span class="n">contains</span><span class="o">(</span><span class="n">email</span><span class="o">)</span> <span class="k">=></span>
+      <span class="s">"You got an email from special someone!"</span>
+    <span class="k">case</span> <span class="nc">SMS</span><span class="o">(</span><span class="n">number</span><span class="o">,</span> <span class="k">_</span><span class="o">)</span> <span class="k">if</span> <span class="n">importantPeopleInfo</span><span class="o">.</span><span class="n">contains</span><span class="o">(</span><span class="n">number</span><span class="o">)</span> <span class="k">=></span>
+      <span class="s">"You got an SMS from special someone!"</span>
+    <span class="k">case</span> <span class="n">other</span> <span class="k">=></span>
+      <span class="n">showNotification</span><span class="o">(</span><span class="n">other</span><span class="o">)</span> <span class="c1">// nothing special, delegate to our original showNotification function</span>
+<span class="c1"></span>  <span class="o">}</span>
+<span class="o">}</span>
+</pre>
+   <p>Variable declarations can be patterns as well, which has the side-effect that</p>
+<pre class="language-scala highlight"><span class="k">var</span> <span class="k">_</span> <span class="k">=</span> <span class="o">...</span>
+</pre>
+   <p>defines an un-named variable like the subject of this proposal. This is less
+useful in Scala than in C++ because Scala doesn’t have destrutors.</p>
+   <h4 class="heading settled" data-level="3.3.2" id="scala-defaults"><span class="secno">3.3.2. </span><span class="content"><a href="https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#variable-declarations-and-definitions">Defaulted definitions</a></span><a class="self-link" href="#scala-defaults"></a></h4>
+   <p>The following initializes <code class="highlight"><span class="n">x</span></code> to a default value depending on its type. For
+example, integral types get <code class="highlight"><span class="mi">0</span></code>, and reference types get <code class="highlight"><span class="n">null</span></code>.</p>
+<pre class="language-scala highlight"><span class="k">var</span> <span class="n">x</span><span class="k">:</span> <span class="kt">T</span> <span class="o">=</span> <span class="k">_</span>
+</pre>
+   <h4 class="heading settled" data-level="3.3.3" id="scala-imports"><span class="secno">3.3.3. </span><span class="content"><a href="https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#import-clauses">Imports</a></span><a class="self-link" href="#scala-imports"></a></h4>
    <blockquote>
-    <p>We are also encouraged to use _ as the discard character instead of *. It works better visually, and is what many other languages already use.</p>
-    <p>There is a small matter of _ already being a valid identifier. In order for it to coexist as a discard with existing valid uses we need to use a few tricks.</p>
-    <p>—<a href="https://github.com/dotnet/roslyn/issues/16674">dotnet/roslyn#16674</a></p>
+    <p>The import clause <code class="highlight"><span class="n">import</span> <span class="n">p</span><span class="p">.</span><span class="n">_</span></code> … makes available without qualification all
+members of <code class="highlight"><span class="n">p</span></code> (this is analogous to <code class="highlight"><span class="n">import</span> <span class="n">p</span><span class="p">.</span><span class="o">*</span></code> in Java).</p>
    </blockquote>
-   <h3 class="heading settled" data-level="3.7" id="prior-erlang"><span class="secno">3.7. </span><span class="content">Erlang</span><a class="self-link" href="#prior-erlang"></a></h3>
-    TODO 
-   <h3 class="heading settled" data-level="3.8" id="prior-elixir"><span class="secno">3.8. </span><span class="content">Elixir</span><a class="self-link" href="#prior-elixir"></a></h3>
-    TODO 
-   <h3 class="heading settled" data-level="3.9" id="prior-prolog"><span class="secno">3.9. </span><span class="content">Prolog</span><a class="self-link" href="#prior-prolog"></a></h3>
-    TODO 
-   <h3 class="heading settled" data-level="3.10" id="prior-ocaml"><span class="secno">3.10. </span><span class="content">OCaml</span><a class="self-link" href="#prior-ocaml"></a></h3>
-    TODO 
-   <h3 class="heading settled" data-level="3.11" id="prior-fsharp"><span class="secno">3.11. </span><span class="content">F#</span><a class="self-link" href="#prior-fsharp"></a></h3>
-    TODO 
-   <h3 class="heading settled" data-level="3.12" id="prior-java"><span class="secno">3.12. </span><span class="content">Java</span><a class="self-link" href="#prior-java"></a></h3>
+   <h4 class="heading settled" data-level="3.3.4" id="scala-type-wildcards"><span class="secno">3.3.4. </span><span class="content">Wildcards</span><a class="self-link" href="#scala-type-wildcards"></a></h4>
+   <p>Scala uses the <code class="highlight"><span class="n">_</span></code> for wildcards in both types and functions. It’s possible to
+write an anonymous function <a href="https://www.scala-lang.org/files/archive/spec/2.12/06-expressions.html#placeholder-syntax-for-anonymous-functions">just by using an _ in an
+expression</a>.
+The first column in each of the rows in the following table is equivalent to the
+second.</p>
+   <table>
+    <tbody>
+     <tr>
+      <td><code class="highlight"><span class="k">_</span> <span class="o">+</span> <span class="mi">1</span></code>
+      <td><code class="highlight"><span class="n">x</span> <span class="k">=></span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span></code>
+     <tr>
+      <td><code class="highlight"><span class="k">_</span> <span class="o">*</span> <span class="k">_</span></code>
+      <td><code class="highlight"><span class="o">(</span><span class="n">x1</span><span class="o">,</span> <span class="n">x2</span><span class="o">)</span> <span class="k">=></span> <span class="n">x1</span> <span class="o">*</span> <span class="n">x2</span></code>
+     <tr>
+      <td><code class="highlight"><span class="o">(</span><span class="k">_:</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">*</span> <span class="mi">2</span></code>
+      <td><code class="highlight"><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=></span> <span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">*</span> <span class="mi">2</span></code>
+     <tr>
+      <td><code class="highlight"><span class="k">if</span> <span class="o">(</span><span class="k">_</span><span class="o">)</span> <span class="n">x</span> <span class="k">else</span> <span class="n">y</span></code>
+      <td><code class="highlight"><span class="n">z</span> <span class="k">=></span> <span class="k">if</span> <span class="o">(</span><span class="n">z</span><span class="o">)</span> <span class="n">x</span> <span class="k">else</span> <span class="n">y</span></code>
+     <tr>
+      <td><code class="highlight"><span class="k">_</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">f</span><span class="o">)</span></code>
+      <td><code class="highlight"><span class="n">x</span> <span class="k">=></span> <span class="n">x</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">f</span><span class="o">)</span></code>
+     <tr>
+      <td><code class="highlight"><span class="k">_</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span></code>
+      <td><code class="highlight"><span class="n">x</span> <span class="k">=></span> <span class="n">x</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">y</span> <span class="k">=></span> <span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span></code>
+   </table>
+   <p>Similarly, <a href="https://www.scala-lang.org/files/archive/spec/2.12/03-types.html#placeholder-syntax-for-existential-types">the following two types are equivalent</a>:</p>
+<pre class="language-scala highlight"><span class="nc">Ref</span><span class="o">[</span><span class="k">_</span> <span class="k">&lt;:</span> <span class="kt">java.lang.Number</span><span class="o">]</span>
+<span class="nc">Ref</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span> <span class="k">forSome</span> <span class="o">{</span> <span class="k">type</span> <span class="kt">T</span> <span class="k">&lt;:</span> <span class="kt">java.lang.Number</span> <span class="o">}</span>
+</pre>
+   <h3 class="heading settled" data-level="3.4" id="prior-rust"><span class="secno">3.4. </span><span class="content">Rust</span><a class="self-link" href="#prior-rust"></a></h3>
+   <p>Rust provides a couple ways to <a href="https://doc.rust-lang.org/book/second-edition/ch18-03-pattern-syntax.html#ignoring-values-in-a-pattern">ignore values in
+patterns</a>,
+which include variable and function parameter declarations:</p>
+   <p><code class="highlight"><span class="n">_</span></code>:</p>
+<pre class="language-rust highlight"><span class="k">fn</span> <span class="nf">foo</span><span class="p">(</span><span class="n">_</span>: <span class="kt">i32</span><span class="p">,</span> <span class="n">y</span>: <span class="kt">i32</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">println</span><span class="o">!</span><span class="p">(</span><span class="s">"This code only uses the y parameter: {}"</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
+<span class="p">}</span>
+</pre>
+   <p>Variables prefixed with <code class="highlight"><span class="n">_</span></code>:</p>
+   <p>The compiler will usually give an error for an unused variable, but if it’s
+prefixed with <code class="highlight"><span class="n">_</span></code>, the error is suppressed:</p>
+<pre class="language-rust highlight"><span class="kd">let</span> <span class="n">s</span> <span class="o">=</span> Some<span class="p">(</span>String::<span class="n">from</span><span class="p">(</span><span class="s">"Hello!"</span><span class="p">));</span>
+
+<span class="k">if</span> <span class="kd">let</span> Some<span class="p">(</span><span class="n">_s</span><span class="p">)</span> <span class="o">=</span> <span class="n">s</span> <span class="p">{</span>
+    <span class="n">println</span><span class="o">!</span><span class="p">(</span><span class="s">"found a string"</span><span class="p">);</span>
+<span class="p">}</span>
+</pre>
+   <p>However, because of Rust’s borrow checker, this is semantically different from a
+simple <code class="highlight"><span class="n">_</span></code>: the <code class="highlight"><span class="n">_s</span></code> takes ownership of the object it’s bound to, where a <code class="highlight"><span class="n">_</span></code> wouldn’t.</p>
+   <p><code class="highlight"><span class="p">..</span></code> to ignore several parts of a value:</p>
+<pre class="language-rust highlight"><span class="kd">let</span> <span class="n">numbers</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">);</span>
+<span class="k">match</span> <span class="n">numbers</span> <span class="p">{</span>
+    <span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="p">..,</span> <span class="n">last</span><span class="p">)</span> <span class="o">=></span> <span class="p">{</span>
+        <span class="n">println</span><span class="o">!</span><span class="p">(</span><span class="s">"Some numbers: {}, {}"</span><span class="p">,</span> <span class="n">first</span><span class="p">,</span> <span class="n">last</span><span class="p">);</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+</pre>
+   <h3 class="heading settled" data-level="3.5" id="prior-csharp"><span class="secno">3.5. </span><span class="content">C#</span><a class="self-link" href="#prior-csharp"></a></h3>
+   <p>C# defines the <code class="highlight"><span class="n">_</span></code> variable as a <a href="https://docs.microsoft.com/en-us/dotnet/csharp/discards">"discard"</a>, and allows
+their use in assignments in the following contexts:</p>
+   <ul>
+    <li data-md="">
+     <p>Tuple and object deconstruction.</p>
+    <li data-md="">
+     <p>Pattern matching with is and switch.</p>
+    <li data-md="">
+     <p>Calls to methods with <code class="highlight"><span class="n">out</span></code> parameters.</p>
+    <li data-md="">
+     <p>A standalone <code class="highlight"><span class="n">_</span></code> when no <code class="highlight"><span class="n">_</span></code> is in scope.</p>
+   </ul>
+   <p>C# had to deal with <code class="highlight"><span class="n">_</span></code> being a pre-existing valid variable name, which causes <a href="https://docs.microsoft.com/en-us/dotnet/csharp/discards#a-standalone-discard">certain uses of _ to be errors or
+bugs</a> if a <code class="highlight"><span class="n">_</span></code> variable already exists in the same scope.</p>
+   <h3 class="heading settled" data-level="3.6" id="prior-java"><span class="secno">3.6. </span><span class="content">Java</span><a class="self-link" href="#prior-java"></a></h3>
    <p>Java uses a <code class="highlight"><span class="o">?</span></code> token to represent a "wildcard" generic argument.</p>
 <pre class="language-java highlight"><span class="kt">void</span> <span class="nf">printCollection</span><span class="o">(</span><span class="n">Collection</span><span class="o">&lt;?></span> <span class="n">c</span><span class="o">)</span> <span class="o">{</span>
     <span class="k">for</span> <span class="o">(</span><span class="n">Object</span> <span class="n">e</span> <span class="o">:</span> <span class="n">c</span><span class="o">)</span> <span class="o">{</span>
@@ -1747,10 +1856,8 @@ function is generic:</p>
     <span class="o">...</span>
 <span class="o">}</span>
 </pre>
-   <h3 class="heading settled" data-level="3.13" id="prior-googlemock"><span class="secno">3.13. </span><span class="content">Googlemock</span><a class="self-link" href="#prior-googlemock"></a></h3>
-   <p>Googlemock defines
-[<code class="highlight"><span class="n">_</span></code>](https://github.com/google/googletest/blob/master/googlemock/docs/CheatSheet.md#wildcard)
-to match anything. It doesn’t use it for declarations, but it’s still an "ignore
+   <h3 class="heading settled" data-level="3.7" id="prior-googlemock"><span class="secno">3.7. </span><span class="content">Googlemock</span><a class="self-link" href="#prior-googlemock"></a></h3>
+   <p>Googlemock defines <a href="https://github.com/google/googletest/blob/master/googlemock/docs/CheatSheet.md#wildcard">_</a> to match anything. It doesn’t use it for declarations, but it’s still an "ignore
 this" token.</p>
 <pre class="language-c++ highlight"><span class="c1">// Expects the turtle to move forward by 100 units.</span>
 <span class="c1"></span><span class="n">EXPECT_CALL</span><span class="p">(</span><span class="n">turtle</span><span class="p">,</span> <span class="n">Forward</span><span class="p">(</span><span class="mi">100</span><span class="p">));</span>
@@ -1758,7 +1865,7 @@ this" token.</p>
 <span class="c1">// Expects the turtle to move forward.</span>
 <span class="c1"></span><span class="n">EXPECT_CALL</span><span class="p">(</span><span class="n">turtle</span><span class="p">,</span> <span class="n">Forward</span><span class="p">(</span><span class="n">_</span><span class="p">));</span>
 </pre>
-   <h3 class="heading settled" data-level="3.14" id="prior-halide"><span class="secno">3.14. </span><span class="content">Halide</span><a class="self-link" href="#prior-halide"></a></h3>
+   <h3 class="heading settled" data-level="3.8" id="prior-halide"><span class="secno">3.8. </span><span class="content">Halide</span><a class="self-link" href="#prior-halide"></a></h3>
    <p>From Halide’s <a href="http://halide-lang.org/docs/class_halide_1_1_var.html#a333e72cf9af6339530cb3544b7fe1324">documentation</a>:</p>
    <blockquote>
     <p>For example, consider the definition:</p>
@@ -1773,6 +1880,9 @@ this" token.</p>
 <span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span><span class="o">*</span><span class="mi">3</span><span class="p">;</span>
 </pre>
    </blockquote>
+   <h3 class="heading settled" data-level="3.9" id="prior-others"><span class="secno">3.9. </span><span class="content">Others</span><a class="self-link" href="#prior-others"></a></h3>
+   <p>I’m told that Swift, Erlang, Elixir, Prolog, OCaml, and F# also use the <code class="highlight"><span class="n">_</span></code> for purposes related to ignoring variables, but I ran out of time to investigate
+and describe them all.</p>
    <h2 class="heading settled" data-level="4" id="spelling"><span class="secno">4. </span><span class="content">Spelling</span><a class="self-link" href="#spelling"></a></h2>
    <p>How should we spell the token?</p>
    <h3 class="heading settled" data-level="4.1" id="spell-underscore"><span class="secno">4.1. </span><span class="content"><code class="highlight"><span class="n">_</span></code></span><a class="self-link" href="#spell-underscore"></a></h3>
@@ -1780,13 +1890,13 @@ this" token.</p>
 the global namespace, and it’s now used by libraries:</p>
    <ul>
     <li data-md="">
-     <p>[<code class="highlight"><span class="n">testing</span><span class="o">::</span><span class="n">_</span></code> in
-Googlemock](https://github.com/google/googletest/blob/master/googlemock/docs/CheatSheet.md#wildcard)</p>
+     <p><a href="https://github.com/google/googletest/blob/master/googlemock/docs/CheatSheet.md#wildcard">testing::_ in
+Googlemock</a></p>
     <li data-md="">
-     <p>[<code class="highlight"><span class="n">Halide</span><span class="o">::</span><span class="n">_</span></code> in Halide](http://halide-lang.org/docs/_var_8h.html)</p>
+     <p><a href="http://halide-lang.org/docs/_var_8h.html">Halide::_ in Halide</a></p>
     <li data-md="">
-     <p>[The <code class="highlight"><span class="n">_</span><span class="p">()</span></code> macro in Gnu
-Gettext](https://www.gnu.org/software/gettext/manual/html_node/Mark-Keywords.html)</p>
+     <p><a href="https://www.gnu.org/software/gettext/manual/html_node/Mark-Keywords.html">The _() macro in Gnu
+Gettext</a></p>
    </ul>
    <p>To avoid making these existing uses of <code class="highlight"><span class="n">_</span></code> ill-formed, see <a href="#qs-second-use">§5.1 Only on second use</a>.</p>
    <h3 class="heading settled" data-level="4.2" id="spell-double-under"><span class="secno">4.2. </span><span class="content"><code class="highlight"><span class="n">__</span></code></span><a class="self-link" href="#spell-double-under"></a></h3>
