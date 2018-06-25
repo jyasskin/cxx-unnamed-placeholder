@@ -5,7 +5,7 @@ Revision: 0
 Audience: EWG
 Status: D
 Group: WG21
-URL: http://wg21.link/P1110r0
+URL: http://wg21.link/P1110R0
 !Source: <a href="https://github.com/jyasskin/cxx-unnamed-placeholder/blob/master/unnamed.bs">https://github.com/jyasskin/cxx-unnamed-placeholder/blob/master/unnamed.bs</a>
 Editor: Jeffrey Yasskin, Google, jyasskin@google.com
 Editor: JF Bastien, Apple, jfbastien@apple.com
