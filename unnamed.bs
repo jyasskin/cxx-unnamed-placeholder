@@ -9,7 +9,7 @@ URL: http://wg21.link/P1110r0
 !Source: <a href="https://github.com/jyasskin/cxx-unnamed-placeholder/blob/master/unnamed.bs">https://github.com/jyasskin/cxx-unnamed-placeholder/blob/master/unnamed.bs</a>
 Editor: Jeffrey Yasskin, Google, jyasskin@google.com
 Editor: JF Bastien, Apple, jfbastien@apple.com
-Abstract: A C++ token for deduced locations that says not to name whatever was deduced.
+Abstract: A C++ token for locations that would normally introduce a name, that says not to introduce the name.
 Date: 2018-06-07
 Markup Shorthands: markdown yes
 Complain About: missing-example-ids yes
