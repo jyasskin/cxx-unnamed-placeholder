@@ -1,9 +1,9 @@
 <pre class='metadata'>
 Title: A placeholder with no name
-Shortname: D1110
+Shortname: P1110
 Revision: 0
 Audience: EWG
-Status: D
+Status: P
 Group: WG21
 URL: http://wg21.link/P1110R0
 !Source: <a href="https://github.com/jyasskin/cxx-unnamed-placeholder/blob/master/unnamed.bs">https://github.com/jyasskin/cxx-unnamed-placeholder/blob/master/unnamed.bs</a>
