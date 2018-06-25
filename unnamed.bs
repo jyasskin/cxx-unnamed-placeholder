@@ -241,6 +241,34 @@ says,
 Because of this divergence in meaning from the other places `__` can appear, I
 recommend disallowing it as a namespace name.
 
+### Anonymous Unions ### {#ex-anon-union}
+
+[**class.union.anon**] says that
+
+```c++
+struct MyStruct {
+    union {
+        int i;
+        double d;
+    };
+};
+```
+
+Makes the union's members' names available as direct members of `MyStruct`.
+Because of that extra behavior, I also don't think we should allow
+
+```c++
+struct MyStruct {
+    union __ {
+        int i;
+        double d;
+    } __;
+};
+```
+
+We could say that naming either the union or the variable allows `__` in the
+other position, or disallow `__` in either position.
+
 # Prior Art # {#prior}
 
 ## Haskell ## {#prior-haskell}
