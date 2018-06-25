@@ -423,7 +423,7 @@ their use in assignments in the following contexts:
 * A standalone `_` when no `_` is in scope.
 
 C# had to deal with `_` being a pre-existing valid variable name, which causes
-[certain uses of `_` to be errors or
+[certain uses of _ to be errors or
 bugs](https://docs.microsoft.com/en-us/dotnet/csharp/discards#a-standalone-discard)
 if a `_` variable already exists in the same scope.
 
@@ -457,7 +457,7 @@ class Collections {
 ## Googlemock ## {#prior-googlemock}
 
 Googlemock defines
-[`_`](https://github.com/google/googletest/blob/master/googlemock/docs/CheatSheet.md#wildcard)
+[_](https://github.com/google/googletest/blob/master/googlemock/docs/CheatSheet.md#wildcard)
 to match anything. It doesn't use it for declarations, but it's still an "ignore
 this" token.
 
@@ -506,10 +506,10 @@ How should we spell the token?
 I believe `_` is the ideal spelling, but [**lex.name**] ¶3.2 only reserves it in
 the global namespace, and it's now used by libraries:
 
-* [`testing::_` in
+* [testing::_ in
     Googlemock](https://github.com/google/googletest/blob/master/googlemock/docs/CheatSheet.md#wildcard)
-* [`Halide::_` in Halide](http://halide-lang.org/docs/_var_8h.html)
-* [The `_()` macro in Gnu
+* [Halide::_ in Halide](http://halide-lang.org/docs/_var_8h.html)
+* [The _() macro in Gnu
     Gettext](https://www.gnu.org/software/gettext/manual/html_node/Mark-Keywords.html)
 
 To avoid making these existing uses of `_` ill-formed, see [[#qs-second-use]].
