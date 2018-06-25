@@ -291,40 +291,141 @@ isOpaqueColour (Colour _ _ _ opacity) = opacity == 255
 ```
 
 ## Python ## {#prior-python}
-TODO
+
+`_` is conventionally used to name unused variables. For example:
+
+```python
+label, has_label, _ = text.partition(':')
+for _ in range(10):
+  call_ten_times()
+```
+
+https://stackoverflow.com/a/5893946/943619 describes this use, but there is no
+mention in the official Python documentation.
 
 ## Scala ## {#prior-scala}
-TODO
+
+Scala uses `_` for many kinds of placeholders:
+
+### [Pattern matching](https://docs.scala-lang.org/tour/pattern-matching.html#pattern-guards) ### {#scala-patterns}
+
+```scala
+def showImportantNotification(notification: Notification, importantPeopleInfo: Seq[String]): String = {
+  notification match {
+    case Email(email, _, _) if importantPeopleInfo.contains(email) =>
+      "You got an email from special someone!"
+    case SMS(number, _) if importantPeopleInfo.contains(number) =>
+      "You got an SMS from special someone!"
+    case other =>
+      showNotification(other) // nothing special, delegate to our original showNotification function
+  }
+}
+```
+
+Variable declarations can be patterns as well, which has the side-effect that
+
+```scala
+var _ = ...
+```
+
+defines an un-named variable like the subject of this proposal. This is less
+useful in Scala than in C++ because Scala doesn't have destrutors.
+
+### [Defaulted definitions](https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#variable-declarations-and-definitions) ### {#scala-defaults}
+
+The following initializes `x` to a default value depending on its type. For
+example, integral types get `0`, and reference types get `null`.
+
+```scala
+var x: T = _
+```
+
+### [Imports](https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#import-clauses) ### {#scala-imports}
+
+> The import clause `import p._` … makes available without qualification all
+members of `p` (this is analogous to `import p.*` in Java).
+
+### Wildcards ### {#scala-type-wildcards}
+
+Scala uses the `_` for wildcards in both types and functions. It's possible to
+write an anonymous function [just by using an _ in an
+expression](https://www.scala-lang.org/files/archive/spec/2.12/06-expressions.html#placeholder-syntax-for-anonymous-functions).
+The first column in each of the rows in the following table is equivalent to the
+second.
+
+<table highlight="scala">
+<tr><td>`_ + 1`</td><td>`x => x + 1`</td></tr>
+<tr><td>`_ * _`</td><td>`(x1, x2) => x1 * x2`</td></tr>
+<tr><td>`(_: Int) * 2`</td><td>`(x: Int) => (x: Int) * 2`</td></tr>
+<tr><td>`if (_) x else y`</td><td>`z => if (z) x else y`</td></tr>
+<tr><td>`_.map(f)`</td><td>`x => x.map(f)`</td></tr>
+<tr><td>`_.map(_ + 1)`</td><td>`x => x.map(y => y + 1)`</td></tr>
+</table>
+
+Similarly, [the following two types are equivalent](https://www.scala-lang.org/files/archive/spec/2.12/03-types.html#placeholder-syntax-for-existential-types):
+
+```scala
+Ref[_ <: java.lang.Number]
+Ref\[T] forSome { type T <: java.lang.Number }
+```
 
 ## Rust ## {#prior-rust}
-TODO
 
-## Swift ## {#prior-swift}
-TODO
+Rust provides a couple ways to [ignore values in
+patterns](https://doc.rust-lang.org/book/second-edition/ch18-03-pattern-syntax.html#ignoring-values-in-a-pattern),
+which include variable and function parameter declarations:
+
+`_`:
+
+```rust
+fn foo(_: i32, y: i32) {
+    println!("This code only uses the y parameter: {}", y);
+}
+```
+
+Variables prefixed with `_`:
+
+The compiler will usually give an error for an unused variable, but if it's
+prefixed with `_`, the error is suppressed:
+
+```rust
+let s = Some(String::from("Hello!"));
+
+if let Some(_s) = s {
+    println!("found a string");
+}
+```
+
+However, because of Rust's borrow checker, this is semantically different from a
+simple `_`: the `_s` takes ownership of the object it's bound to, where a `_`
+wouldn't.
+
+`..` to ignore several parts of a value:
+
+```rust
+let numbers = (2, 4, 8, 16, 32);
+match numbers {
+    (first, .., last) => {
+        println!("Some numbers: {}, {}", first, last);
+    },
+}
+```
 
 ## C#  ## {#prior-csharp}
-TODO
 
-> We are also encouraged to use _ as the discard character instead of *. It works better visually, and is what many other languages already use.
->
-> There is a small matter of _ already being a valid identifier. In order for it to coexist as a discard with existing valid uses we need to use a few tricks.
->
-> —[dotnet/roslyn#16674](https://github.com/dotnet/roslyn/issues/16674)
+C# defines the `_` variable as a
+["discard"](https://docs.microsoft.com/en-us/dotnet/csharp/discards), and allows
+their use in assignments in the following contexts:
 
-## Erlang ## {#prior-erlang}
-TODO
+* Tuple and object deconstruction.
+* Pattern matching with is and switch.
+* Calls to methods with `out` parameters.
+* A standalone `_` when no `_` is in scope.
 
-## Elixir ## {#prior-elixir}
-TODO
-
-## Prolog ## {#prior-prolog}
-TODO
-
-## OCaml ## {#prior-ocaml}
-TODO
-
-## F# ## {#prior-fsharp}
-TODO
+C# had to deal with `_` being a pre-existing valid variable name, which causes
+[certain uses of `_` to be errors or
+bugs](https://docs.microsoft.com/en-us/dotnet/csharp/discards#a-standalone-discard)
+if a `_` variable already exists in the same scope.
 
 ## Java ## {#prior-java}
 
@@ -389,6 +490,12 @@ From Halide's
 > g(x, _) = f(x, _)*3;
 > g(x, y) = f(x, y)*3;
 > ```
+
+## Others ## {#prior-others}
+
+I'm told that Swift, Erlang, Elixir, Prolog, OCaml, and F# also use the `_`
+for purposes related to ignoring variables, but I ran out of time to investigate
+and describe them all.
 
 # Spelling # {#spelling}
 
